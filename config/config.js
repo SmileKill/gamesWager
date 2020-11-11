@@ -100,9 +100,9 @@ export default defineConfig({
           component: '../layouts/BasicLayout',
           routes: [
             {
-              path: '/sysPC/welcome1',
-              name: 'welcome',
-              component: './Welcome',
+              path: '/sysPC/userManagement',
+              name: '用户管理',
+              component: './sysPC/userManagement',
             },
             {
               path: '/sysPC/welcome2',
