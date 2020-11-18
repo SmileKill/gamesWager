@@ -1,157 +1,102 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { connect } from 'dva';
 import { Input, Table, Button, Form, Card } from 'antd';
-import Edit from './Edit';
-
-@connect(({ management, loading }) => ({
-    management,
-    loading: loading.effects['management/getList'],
-}))
-@Form.create()
-export default class ProgramsTableList extends Component {
-    handlePagination = pagination => this.getList(pagination);
-
-    getList = pagination => {
-        const { dispatch, form } = this.props;
-        const value = form.getFieldsValue();
+import { gameList } from '@/utils/globalData';
+export default connect(({ sysPC }) => ({ ...sysPC }))((props) => {
+    const { tradeList, tradePagination, dispatch } = props;
+    const [form] = Form.useForm();
+    
+    useEffect(() => {
         dispatch({
-            type: 'management/getList',
-            params: {
-                ...value,
-                pageNumber: pagination.current,
-                pageSize: pagination.pageSize,
-            },
-        });
-    };
-
-    addUser = () => {
-        const { dispatch } = this.props;
-        dispatch({ type: 'management/setStateValue', params: { visible: true, type: 'add' } });
-    };
-
-    onFreeze = item => {
-        const { dispatch } = this.props;
-        dispatch({ type: 'management/upFreeze', params: { userId: item.userId } });
-    };
-
-    onUnseal = item => {
-        const { dispatch } = this.props;
-        dispatch({ type: 'management/upUnseal', params: { userId: item.userId } });
-    };
-
-    onReset = item => {
-        const { dispatch } = this.props;
-        dispatch({ type: 'management/upReset', params: { userId: item.userId } });
-    };
-
-    onEdit = item => {
-        const { dispatch } = this.props;
-        dispatch({ type: 'programs/fetchDetailedById', params: item.programId });
-    };
-
-    handleReset = () => {
-        const { dispatch, form } = this.props;
-        form.resetFields();
-        dispatch({
-            type: 'management/getList',
-            params: {
-                blurry: '',
-                pageNumber: 1,
+            type: 'sysPC/getTradeList', params: {
+                currentPage: 1,
                 pageSize: 10,
-            },
-        });
-    };
+                queryString: {
+                    loginName: ''
+                }
+            }
+        })
+    }, [])
 
-    handleExport = () => {
-        const { dispatch } = this.props;
+    const onFinish = values => {
         dispatch({
-            type: 'programs/getExport',
-            params: {
-                beginTime: '',
-                beginTime2: '',
-            },
-        });
+            type: 'sysPC/getTradeList', params: {
+                currentPage: 1,
+                pageSize: 10,
+                queryString: values
+            }
+        })
     };
-
-    onDelete = item => {
-        const { dispatch } = this.props;
-        dispatch({ type: 'programs/fetchDelete', params: [item.programId] });
-    };
-
-    render() {
-        const { dataSource, pagination } = this.props.management;
-        console.log('dataSource:', dataSource);
-        const { getFieldDecorator } = this.props.form;
-        const columns = [
-            {
-                title: '用户名称',
-                dataIndex: 'userName',
-                key: 'userName',
-            },
-            {
-                title: 'E-mail',
-                dataIndex: 'email',
-                key: 'email',
-            },
-            {
-                title: '注册时间',
-                dataIndex: 'createDate',
-                key: 'createDate',
-            },
-            {
-                title: '账号状态',
-                dataIndex: 'status',
-                key: 'status',
-            },
-            {
-                title: '操作',
-                dataIndex: 'avatar',
-                key: 'avatar',
-                render: (_, record) => {
-                    return (
-                        <div>
-                            <a onClick={() => this.onReset(record)}>密码重置</a>
-                            <a style={{ marginLeft: 10 }} onClick={() => this.onFreeze(record)}>
-                                冻结
-              </a>
-                            <a style={{ marginLeft: 10 }} onClick={() => this.onUnseal(record)}>
-                                解封
-              </a>
-                        </div>
-                    );
-                },
-            },
-        ];
-        return (
-            <Card>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Form layout="inline">
-                        <Form.Item label="搜索">
-                            {getFieldDecorator('blurry', { initialValue: '' })(
-                                <Input style={{ minWidth: 240 }} placeholder="请输入用户名 E-mail进行查询" />,
-                            )}
-                        </Form.Item>
-                        <Form.Item>
-                            <Button onClick={() => this.getList(pagination)} type="primary">
-                                查询
-              </Button>
-                            <Button style={{ marginLeft: 10 }} onClick={this.handleReset}>
-                                重置
-              </Button>
-                        </Form.Item>
-                    </Form>
-                    <Button style={{ marginLeft: 10 }} onClick={this.addUser}>
-                        增加用户
-          </Button>
-                </div>
-                <Table
-                    columns={columns}
-                    dataSource={dataSource}
-                    pagination={pagination}
-                    onChange={this.handlePagination}
-                />
-                <Edit />
-            </Card>
-        );
+    const handlePagination = pagination => {
+        dispatch({
+            type: 'sysPC/getTradeList', params: {
+                currentPage: pagination.current,
+                pageSize: 10,
+                queryString: { loginName: form.getFieldValue('loginName') }
+            }
+        })
     }
-}
+    const columns = [
+        {
+            title: '序号',
+            dataIndex: 'id',
+            key: 'id',
+        },
+        {
+            title: '登录名',
+            dataIndex: 'loginName',
+            key: 'loginName',
+        },
+        {
+            title: '期号',
+            dataIndex: 'tradeId',
+            key: 'tradeId',
+        },
+        {
+            title: '赢取金额',
+            dataIndex: 'winMoney',
+            key: 'winMoney',
+        },
+        {
+            title: '下注时间',
+            dataIndex: 'tradeTime',
+            key: 'tradeTime',
+        },
+        {
+            title: '下注内容',
+            dataIndex: 'tradeCode',
+            key: 'tradeCode',
+        },
+        {
+            title: '游戏类型',
+            dataIndex: 'playType',
+            key: 'playType',
+            render: (_, record) => {
+                let name =  gameList.find(item => item.playType == record.playType).playName;
+                return name
+            },
+        },
+    ];
+    return (
+        <Card>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Form form={form} layout="inline" onFinish={onFinish}>
+                    <Form.Item name="loginName" label="搜索">
+                        <Input style={{ minWidth: 240 }} placeholder="请输入用户名" />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">查询</Button>
+                    </Form.Item>
+                </Form>
+            </div>
+            <Table
+                columns={columns}
+                dataSource={tradeList}
+                rowKey={record => record.id}
+                pagination={{ ...tradePagination, showSizeChanger: false }}
+                onChange={handlePagination} //test
+            />
+            {/* <Edit /> */}
+        </Card>
+    )
+});

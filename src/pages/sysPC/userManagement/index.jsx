@@ -1,21 +1,39 @@
-import React, { Component, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'dva';
 import { Input, Table, Button, Form, Card } from 'antd';
 import Edit from './Edit';
-
+import Recharge from './Recharge';
+import Password from './Password';
 export default connect(({ sysPC }) => ({ ...sysPC }))((props) => {
-    const { dispatch, pagination, dataSource } = props;
+    const { userList, userPagination, dispatch } = props;
+    const [form] = Form.useForm();
+    const [value, setValue] = useState({
+        type: 'close',
+        loginName: '',
+        password: '',
+        userName: '',
+        id: 0
+    });
     const addUser = () => {
-        console.log('adduser')
+        setValue({
+            type: 'add',
+            loginName: '',
+            password: '',
+            userName: '',
+            id: 0
+        })
     }
+    const onEdit = (record) => {
+        setValue({ ...record, type: 'edit' })
+    }
+    
     useEffect(() => {
-        console.log('useEffect')
         dispatch({
             type: 'sysPC/getUserList', params: {
                 currentPage: 1,
                 pageSize: 10,
                 queryString: {
-                    loginName:''
+                    loginName: ''
                 }
             }
         })
@@ -23,14 +41,20 @@ export default connect(({ sysPC }) => ({ ...sysPC }))((props) => {
     const onFinish = values => {
         dispatch({
             type: 'sysPC/getUserList', params: {
-                currentPage: 1,
+                currentPage: userPagination.current,
                 pageSize: 10,
-                queryString: values
+                queryString: { loginName: form.getFieldValue('loginName') }
             }
         })
     };
     const handlePagination = pagination => {
-        console.log('handlePagination:', pagination)
+        dispatch({
+            type: 'sysPC/getUserList', params: {
+                currentPage: pagination.current,
+                pageSize: 10,
+                queryString: { loginName: form.getFieldValue('loginName') }
+            }
+        })
     }
     const columns = [
         {
@@ -59,15 +83,20 @@ export default connect(({ sysPC }) => ({ ...sysPC }))((props) => {
             key: 'createTime',
         },
         {
+            title: '余额',
+            dataIndex: 'money',
+            key: 'money',
+        },
+        {
             title: '操作',
             dataIndex: 'avatar',
             key: 'avatar',
             render: (_, record) => {
                 return (
                     <div>
-                        <a onClick={() => this.onReset(record)}>编辑</a>
-                        {/* <a style={{ marginLeft: 10 }} onClick={() => this.onFreeze(record)}>删除</a> */}
-                        <a style={{ marginLeft: 10 }} onClick={() => this.onUnseal(record)}>充值</a>
+                        <a onClick={() => onEdit(record)}>编辑</a>
+                        <Recharge record={record} onFinish={onFinish} />
+                        <Password record={record} onFinish={onFinish} />
                     </div>
                 );
             },
@@ -76,7 +105,7 @@ export default connect(({ sysPC }) => ({ ...sysPC }))((props) => {
     return (
         <Card>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Form layout="inline" onFinish={onFinish}>
+                <Form form={form} layout="inline" onFinish={onFinish}>
                     <Form.Item name="loginName" label="搜索">
                         <Input style={{ minWidth: 240 }} placeholder="请输入用户名" />
                     </Form.Item>
@@ -88,12 +117,12 @@ export default connect(({ sysPC }) => ({ ...sysPC }))((props) => {
             </div>
             <Table
                 columns={columns}
-                dataSource={dataSource}
+                dataSource={userList}
                 rowKey={record => record.id}
-                pagination={pagination}
+                pagination={userPagination}
                 onChange={handlePagination} //test
             />
-            {/* <Edit /> */}
+            <Edit value={value} setValue={setValue} onFinish={onFinish} />
         </Card>
     )
 });

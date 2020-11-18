@@ -1,75 +1,75 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { connect } from 'dva';
 import { Input, Table, Select, Button, Tabs, Form, Tag, Col, Row, Card, Modal } from 'antd';
 
 
-@connect(({ management, loading }) => ({
-    management,
-}))
+export default connect(({ sysPC }) => ({ ...sysPC }))((props) => {
+    const { value, dispatch } = props;
+    const { type } = value;
+    const [form] = Form.useForm();
 
-export default class ProgramsTableList extends Component {
-    constructor(props) {
-        super(props);
-    }
-    onSubmit = () => {
-        const { form, dispatch, management } = this.props;
-        form.validateFields((err, values) => {
-            if (err) {
-                return;
+    const onSubmit = () => {
+        let values = form.getFieldsValue();
+        dispatch({
+            type: 'sysPC/editUser', params: { ...values, type }
+        }).then((res) => {
+            if (res) {
+                props.onFinish()
+                onCancel()
             }
-            dispatch({
-                type: 'management/upEditSave',
-                params: values,
-                method: management.type == "add" ? 'POST' : 'PUT',
-                onCallBack: () => form.resetFields()
-            })
-        });
+        })
     }
-    onCancel = () => {
-        const { dispatch, form } = this.props;
-        form.resetFields();
-        dispatch({ type: 'management/setStateValue', params: { visible: false, type: '' } })
+    const onCancel = () => {
+        props.setValue({
+            type: 'close',
+            loginName: '',
+            password: '',
+            userName: '',
+            id: 0
+        })
     }
-    render() {
+    const typeFuc = () => {
+        switch (type) {
+            case 'add': return '添加用户';
+            case 'edit': return '编辑用户';
+        }
+    }
+    useEffect(() => {
+        form.setFieldsValue(value);
+    }, [value])
+    return (
+        <Modal
+            title={typeFuc()}
+            visible={type == 'close' ? false : true}
+            //confirmLoading
+            onOk={onSubmit}
+            onCancel={onCancel}
+        >
+            <Form form={form} >
+                <Form.Item name="userName" label="昵称">
+                    <Input style={{ minWidth: 240 }} placeholder="请输入昵称" />
+                </Form.Item>
+                <Form.Item name="referrer" label="推荐人">
+                    <Input style={{ minWidth: 240 }} placeholder="请输入推荐人" />
+                </Form.Item>
+                {
+                    type == 'add' ?
+                        <>
+                            <Form.Item name="loginName" label="用户名">
+                                <Input style={{ minWidth: 240 }} placeholder="请输入用户名" />
+                            </Form.Item>
+                            <Form.Item name="password" label="密码">
+                                <Input style={{ minWidth: 240 }} placeholder="请输入密码" />
+                            </Form.Item>
 
-        const { getFieldDecorator } = this.props.form;
-        const { visible, type } = this.props.management
-        return (
-            <Modal
-                title={type == 'add' ? '添加用户' : '编辑用户'}
-                visible={visible}
-                //confirmLoading
-                onOk={this.onSubmit}
-                onCancel={this.onCancel}
-            >
-                <Form layout="vertical">
-                    <Form.Item label="姓名">
-                        {getFieldDecorator('userName', {
-                            rules: [{ required: true, message: '请输入姓名' }],
-                        })(<Input placeholder='请输入姓名' />)}
-                    </Form.Item>
-                    <Form.Item label="用户邮箱">
-                        {getFieldDecorator('email', {
-                            rules: [{ required: true, message: '请输入用户邮箱' }],
-                        })(<Input placeholder='请输入用户邮箱' />)}
-                    </Form.Item>
-                    <Form.Item label="用户名">
-                        {getFieldDecorator('loginName', {
-                            rules: [{ required: true, message: '请输入用户名' }],
-                        })(<Input placeholder='请输入用户名' />)}
-                    </Form.Item>
-                    <Form.Item label="手机号">
-                        {getFieldDecorator('phone', {
-                            rules: [{ required: true, message: '请输入手机号' }],
-                        })(<Input placeholder='请输入手机号' />)}
-                    </Form.Item>
-                    <Form.Item label="性别">
-                        {getFieldDecorator('sex', {
-                            rules: [{ required: true, message: '请选择性别' }],
-                        })(<Input placeholder='请选择性别' />)}
-                    </Form.Item>
-                </Form>
-            </Modal>
-        );
-    }
-}
+                        </>
+                        :
+                        null
+                }
+            </Form>
+        </Modal>
+    )
+})
+
+
+

@@ -13,6 +13,7 @@ const Model = {
       const formData = new FormData();
       formData.append('username', payload.username);
       formData.append('password', payload.password);
+      formData.append('loginType', 0);
       const response = yield call(fakeAccountLogin, formData);
       if (response.flag) {
         yield put({

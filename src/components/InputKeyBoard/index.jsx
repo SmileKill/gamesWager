@@ -7,6 +7,7 @@ import { visible } from 'chalk';
 import { Button,Input } from 'antd';
 import Province from './Province';
 import SlotProvince from './SlotProvince';
+import LotteryProvince from './LotteryProvince'
 export default class Index extends React.Component {
     constructor(props) {
         super(props);
@@ -43,6 +44,9 @@ export default class Index extends React.Component {
         if(keyState=='slot'){
             return <SlotProvince onChange={this.setOnChange} />
         }
+        if(keyState=='lottery'){
+            return <LotteryProvince onChange={this.setOnChange} />
+        }
         return <Province onChange={this.setOnChange} />
     }
     render() {
@@ -53,7 +57,8 @@ export default class Index extends React.Component {
                 <div className={styles['am-list-item']} onClick={this.setVisble}>
                     {/* <TableOutlined /> */}
                     <div style={{ flex: 1, backgroundColor: '#EEE' }}>
-                        <Input type="text" readonly="readonly" placeholder="车道/数字/金额" style={{ border: 0 }} value={value} />
+                        {/* placeholder="车道/数字/金额" */}
+                        <Input type="text" readonly="readonly" style={{ border: 0 }} value={value} />
                     </div>
                     <Button onClick={onClick} style={{ marginRight: 3, backgroundColor: '#ff8d27', color: '#FFF' }}>投注</Button>
                 </div>

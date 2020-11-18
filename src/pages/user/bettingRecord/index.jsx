@@ -12,7 +12,6 @@ export default connect(({ bettingRecord }) => ({ ...bettingRecord }))((props) =>
     useEffect(() => {
         dispatch({ type: 'bettingRecord/getRecordList' })
     }, [])
-    console.log('props:', props)
     const playTypeFun = (item) => {
         switch (item) {
             case 1: return '急速赛车';

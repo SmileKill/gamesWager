@@ -8,7 +8,7 @@ import ChatRoom from '@/components/ChatRoom';
 
 const UserLayout = props => {
   const { dispatch, wsData, scene, route } = props;
-  const [value, setValue] = useState("5/5/55");
+  const [value, setValue] = useState("");
   const upFormData = (event) => {
     dispatch({
       type: 'login/upFormData', params: {

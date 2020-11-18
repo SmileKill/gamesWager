@@ -74,6 +74,19 @@ const slotRuleList = [
     },
 ]
 
+const sixRuleList = [
+    {
+        headerTitle: '红球/蓝球/下注金额格式',
+        listItem: [
+            {
+                title: '案例1:',
+                Subtitle: '01,02,03,05,08,07/09/100',
+                content: '表示红球01,02,03,05,08,07，蓝球09，下注100'
+            },
+        ]
+    }
+]
+
 const Index = ({ value }) => {
     const { playType, type } = value;
     if (playType == 3) {
@@ -88,6 +101,32 @@ const Index = ({ value }) => {
                                     item.listItem.map(listItem => (
                                         <div className={styles.listItem}>
                                             <div className={styles.title}>
+                                                <div>{listItem.title}</div>
+                                                <div>{listItem.Subtitle} </div>
+                                            </div>
+                                            <div className={styles.content}>{listItem.content}</div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    ))
+                }
+            </>
+        )
+    }
+    if (playType == 4) {
+        return (
+            <>
+                {
+                    sixRuleList.map(item => (
+                        <div key={1} className={styles.rule}>
+                            <div className={styles.header} >{item.headerTitle}</div>
+                            <div className={styles.main}>
+                                {
+                                    item.listItem.map(listItem => (
+                                        <div className={styles.listItem}>
+                                            <div style={{ minWidth: 'auto' }} className={styles.title}>
                                                 <div>{listItem.title}</div>
                                                 <div>{listItem.Subtitle} </div>
                                             </div>

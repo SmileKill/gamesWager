@@ -1,0 +1,195 @@
+@import '~antd/es/style/themes/default.less';
+
+.num{
+  width: 100%;
+  height: 28px;
+  background: url(../../../images/animate/top_header.jpg)no-repeat center;
+  display: flex;
+  overflow: hidden;
+  flex-wrap: nowrap;
+}
+.num .num-left{color: #fff;height: 28px;line-height: 28px;padding-left: 5px;font-size: 14px;}
+.num .num-left span{color: yellowgreen;}
+.num .num-right{float: right;color: #fff;height: 28px;line-height: 28px;font-size: 14px;}
+
+.num .num-center{flex: 1;display: flex;}
+.num .num-center ul{
+  overflow: hidden;
+  display: flex;
+  flex: 1;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+.num .num-center ul li{
+  background: #fff;
+  text-align: center;
+  width: 15px;
+  height: 15px;
+  line-height: 15px;
+  font-size: 9px;
+  border-radius: 50%;
+}
+
+.topbg{
+  width: 40000px;
+  background: url(../../../images/animate/topbg.jpg) repeat-x;
+  height: 48px;
+  z-index: 5;
+  background-size: contain;
+}
+.animate{
+  width: 1080px;
+  height: 570px;
+  overflow: hidden;
+  position: relative;
+}
+.animate-box{
+  background: url(../../../images/animate/road.jpg) repeat-x;
+  height: 152px;
+  width: 40000px;
+  z-index: 5;
+  background-size: contain;
+  //border: 1px solid #000000;
+}
+
+.line-1{
+  width: 100px;
+  z-index: 6;
+  height: 100%;
+  overflow: hidden;
+  padding: 10px 0
+}
+.line-2{
+  width: 50px;
+  z-index: 6;
+  height: 152px;
+  overflow: hidden;
+}
+
+.listItem{
+  display: flex;
+  padding:10px;
+//  border: 1px solid #EEE; 
+}
+.listItemTitle{
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right:1px solid #b2a38c;
+  padding: 0 5px;
+}
+.listItemEnd{
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-left:1px solid #b2a38c;
+  padding: 0 5px;
+}
+.listItemBody{
+  flex: 1;
+  display: flex;
+  flex-flow: wrap;
+  width: 100%;
+}
+.listItemLine{
+  width: 1px;
+ // border: 1px solid #000000;
+  height: 100%;
+}
+.cardBody{
+  display: flex;
+  min-height: 120px;
+  flex: 1;
+ // border: 1px solid #000000;
+}
+
+/* 倒计时灯光 */
+.light{
+  position:absolute;
+  z-index: 8;
+  width: 200px;
+  height:70px;
+  background: url(../../../images/animate/trafficlight.png)no-repeat left bottom;
+  top: 80px;
+  left: 20%;
+  background-size: contain;
+}
+.lightred{
+  width: 100px;
+  position: absolute;
+  top: 17px;
+  left: 115px;
+}
+.lightyellow{
+  width: 100px;
+  position: absolute;
+  top: 17px;
+  left: 52px;
+}
+  
+.lightgreen{
+  width: 100px;
+  position: absolute;
+  top: 17px;
+  left: -12px;
+}
+.lightyellow img {
+  background-size: contain;
+}
+.lightred img {
+  background-size: contain;
+}
+.lightgreen img {
+  background-size: contain;
+}
+.countdownnum{color: #fff;position: absolute;top: 10px;left: 50px;font-size: 15px;}
+.countdownnum2{color: #fff;position: absolute;top: 14px;left: 120px;font-size: 10px;}
+
+.podiumbg{
+     background: url('../../../images/rezult/resultbg.jpg') no-repeat;
+     background-size: cover;
+     background-position: center;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.podiumItem {
+  width: 100px;
+  position: relative;
+}
+
+.LotteryResults{
+  width: 100%;
+  height: 130px;
+  margin: 5px;
+  padding: 8px;
+  background-color: #fff;
+  font-size: 13px;
+}
+
+
+.LotteryResults .openCode {
+  font-weight: bold;
+  border-radius: 50%;
+  border: 1px solid royalblue;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  margin-left: 3px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.LotteryResults .listItem {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+}
