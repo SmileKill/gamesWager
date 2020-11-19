@@ -13,7 +13,7 @@ export default [
         name: '加拿大28'
     }, {
         img: require('./4.png'),
-        path: '/car',
+        path: '/lottery',
         name: '六合彩'
     }, {
         img: require('./5.png'),

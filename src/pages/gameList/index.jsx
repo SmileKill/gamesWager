@@ -12,7 +12,6 @@ const gameListItem = (item) => (
 )
 export default connect(({ login }) => ({ ...login }))((props) => {
     const { principal } = props;
-    console.log('principal:',principal)
     return (
         <div className={styles.container}>
             <div style={{ marginTop: 45 }} className={styles.line}>用户名:{principal.user.userName}</div>

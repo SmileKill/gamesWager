@@ -108,9 +108,8 @@ const LoginItem = (props) => {
       </FormItem>
     );
   }
-  console.log('options:',options)
   return (
-    <FormItem label={name} name={name} {...options}>
+    <FormItem  name={name} {...options}>
       <Input {...customProps} {...otherProps} style={{ border: '4px' }} />
     </FormItem>
   );

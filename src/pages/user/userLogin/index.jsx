@@ -49,7 +49,7 @@ const Login = (props) => {
                 </div>
                 <Button loading={submitting} onClick={handleSubmit}><div className={styles.loginButton} /></Button>
                 {/* <div className={styles.loginButton} /> */}
-                <div style={{ color: '#fff', marginTop: 10 }}>免费注册</div>
+                {/* <div style={{ color: '#fff', marginTop: 10 }}>免费注册</div> */}
             </div>
         </div>
     );

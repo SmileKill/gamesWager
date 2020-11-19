@@ -103,7 +103,8 @@ const BasicLayout = (props) => {
   const { formatMessage } = useIntl();
   return (
     <ProLayout
-      logo={logo}
+      logo={() => ''}
+      
       formatMessage={formatMessage}
       onCollapse={handleMenuCollapse}
       onMenuHeaderClick={() => history.push('/')}
@@ -131,7 +132,7 @@ const BasicLayout = (props) => {
           <span>{route.breadcrumbName}</span>
         );
       }}
-      footerRender={() => defaultFooterDom}
+      //footerRender={() => defaultFooterDom}
       menuDataRender={menuDataRender}
       rightContentRender={() => <RightContent />}
       postMenuData={(menuData) => {
@@ -140,6 +141,7 @@ const BasicLayout = (props) => {
       }}
       {...props}
       {...settings}
+      title={'滴滴28'}
     >
       <Authorized authority={authorized.authority} noMatch={noMatch}>
         {children}

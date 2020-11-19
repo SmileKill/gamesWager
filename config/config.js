@@ -63,6 +63,12 @@ export default defineConfig({
       component: './Slot',
     },
     {
+      name: 'lottery',
+      path: '/lottery',
+      type: 4,
+      component: './lottery',
+    },
+    {
       name: 'fiveCar',
       path: '/fiveCar',
       type: 5,
@@ -100,14 +106,24 @@ export default defineConfig({
           component: '../layouts/BasicLayout',
           routes: [
             {
-              path: '/sysPC/welcome1',
-              name: 'welcome',
-              component: './Welcome',
+              path: '/sysPC/userManagement',
+              name: '用户管理',
+              component: './sysPC/userManagement',
             },
             {
-              path: '/sysPC/welcome2',
-              name: 'welcome',
-              component: './Welcome',
+              path: '/sysPC/bettingRecord',
+              name: '投注记录',
+              component: './sysPC/bettingRecord',
+            },
+            {
+              path: '/sysPC/sixSetting',
+              name: '六合彩开奖设置',
+              component: './sysPC/sixSetting',
+            },
+            {
+              path: '/sysPC/gameSettings',
+              name: '开奖设置',
+              component: './sysPC/gameSettings',
             },
             {
               component: './404',
